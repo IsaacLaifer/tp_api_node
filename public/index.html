@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Liste des films</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Liste des films</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Réalisateur</th>
+                <th>Année</th>
+            </tr>
+        </thead>
+        <tbody id="filmsTableBody"></tbody>
+    </table>
+
+    <script>
+        // Effectuer une requête GET à l'API pour récupérer la liste des films
+        fetch('/api/films')
+            .then(response => response.json())
+            .then(films => {
+                const filmsTableBody = document.getElementById('filmsTableBody');
+
+                // Parcourir la liste des films et ajouter chaque film au tableau
+                films.forEach(film => {
+                    const row = document.createElement('tr');
+
+                    const titreCell = document.createElement('td');
+                    titreCell.textContent = film.titre;
+                    row.appendChild(titreCell);
+
+                    const realisateurCell = document.createElement('td');
+                    realisateurCell.textContent = film.realisateur;
+                    row.appendChild(realisateurCell);
+
+                    const anneeCell = document.createElement('td');
+                    anneeCell.textContent = film.annee;
+                    row.appendChild(anneeCell);
+
+                    filmsTableBody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Une erreur s\'est produite lors de la récupération des films:', error);
+            });
+    </script>
+</body>
+</html>
